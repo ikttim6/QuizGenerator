@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}About - AI Quiz Generator{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="display-4 mb-4">About AI Quiz Generator</h1>
+            
+            <div class="card shadow-sm mb-5">
+                <div class="card-body p-4">
+                    <h2 class="h4 mb-3">Our Mission</h2>
+                    <p>In today's educational system, creating quality quizzes and exams takes significant time and resources. Our project aims to simplify this process by using artificial intelligence to automatically generate tests and quizzes based on educational materials.</p>
+                    
+                    <p>The application allows professors to upload text documents, after which AI analyzes them and creates questions from different categories, including multiple-choice, true/false, and open-ended questions. The project is designed for higher education.</p>
+                    
+                    <p>We believe that with this tool, the testing process will become faster, more efficient, and more objective, allowing professors to focus on improving teaching methods instead of spending time manually creating tests.</p>
+                </div>
+            </div>
+            
+            <h2 class="h3 mb-4">Technology Stack</h2>
+            <div class="row mb-5">
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h3 class="h5 mb-3">Backend</h3>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Django Framework</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Python</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> OpenAI GPT-4 API</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> SQLite Database</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h3 class="h5 mb-3">Frontend</h3>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Bootstrap 5</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> HTML5 & CSS3</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> JavaScript</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Responsive Design</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="h3 mb-4">Key Features</h2>
+            <div class="card shadow-sm mb-5">
+                <div class="card-body p-4">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-transparent">
+                            <i class="bi bi-people-fill text-primary me-2"></i>
+                            <strong>User Roles:</strong> The system serves two types of users - professors and students.
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="bi bi-file-earmark-text text-primary me-2"></i>
+                            <strong>Document Upload:</strong> Upload educational materials in PDF, DOCX formats or automatically load via Google Docs API.
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="bi bi-question-circle-fill text-primary me-2"></i>
+                            <strong>Question Generation:</strong> Automatically generate multiple-choice, true/false, or essay questions.
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="bi bi-pencil-square text-primary me-2"></i>
+                            <strong>Question Management:</strong> Review, edit, or delete questions before using them.
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="bi bi-shield-lock-fill text-primary me-2"></i>
+                            <strong>Admin Interface:</strong> A special interface for system administrators to view all users, uploaded documents, and generated tests.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h2 class="h3 mb-4">How It Works</h2>
+            <div class="card shadow-sm mb-5">
+                <div class="card-body p-4">
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item d-flex justify-content-between align-items-start bg-transparent">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Register an Account</div>
+                                Create a professor account to access all features.
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start bg-transparent">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Upload Educational Materials</div>
+                                Upload your lecture notes, textbooks, or other educational content.
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start bg-transparent">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Generate Questions</div>
+                                Specify the number and types of questions you want to generate.
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start bg-transparent">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Review and Edit</div>
+                                Review the generated questions and make any necessary edits.
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start bg-transparent">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Export and Use</div>
+                                Export your quiz for use in your preferred learning platform.
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

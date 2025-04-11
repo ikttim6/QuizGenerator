@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>All Attempts for {{ quiz.title }}</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            {% if attempts %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Attempt #</th>
+                            <th>Date</th>
+                            <th>Score</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attempt in attempts %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ attempt.completed_at|date:"F j, Y H:i" }}</td>
+                            <td>{{ attempt.score|floatformat:1 }}%</td>
+                            <td>
+                                <a href="{% url 'quiz_results' attempt_pk=attempt.pk %}" class="btn btn-sm btn-info">View Results</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-center">You haven't completed any attempts for this quiz yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="mt-3">
+        <a href="{% url 'quiz_detail' pk=quiz.pk %}" class="btn btn-secondary">Back to Quiz</a>
+        <a href="{% url 'take_quiz' pk=quiz.pk %}" class="btn btn-primary">Take Quiz</a>
+    </div>
+</div>
+{% endblock %}

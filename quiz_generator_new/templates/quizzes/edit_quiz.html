@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit {{ quiz.title }} - AI Quiz Generator{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Edit Quiz: {{ quiz.title }}</h4>
+            <a href="{% url 'export_quiz' quiz.id %}" class="btn btn-light btn-sm">
+                <i class="bi bi-download"></i> Export
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="mb-4">
+                <h5>Questions</h5>
+                <p class="text-muted">Edit or delete questions as needed.</p>
+            </div>
+            
+            {% if quiz.questions.exists %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Question</th>
+                                <th>Type</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for question in quiz.questions.all %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ question.question_text|truncatechars:100 }}</td>
+                                    <td><span class="badge bg-primary">{{ question.get_question_type_display }}</span></td>
+                                    <td>
+                                        <a href="{% url 'edit_question' quiz.id question.id %}" class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </a>
+                                        <a href="{% url 'delete_question' quiz.id question.id %}" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    No questions found for this quiz.
+                </div>
+            {% endif %}
+            
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'quiz_detail' quiz.id %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to Quiz Details
+                </a>
+                <a href="{% url 'generate_quiz' %}" class="btn btn-primary">
+                    <i class="bi bi-magic"></i> Generate New Quiz
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ document.title }} - AI Quiz Generator{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">{{ document.title }}</h4>
+                    <span class="badge bg-light text-dark">{{ document.file_extension }}</span>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5>Document Information</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Uploaded On
+                                <span>{{ document.uploaded_at|date:"F d, Y, g:i a" }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                File Type
+                                <span>{{ document.file_extension|upper }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                File Path
+                                <span class="text-truncate" style="max-width: 300px;">{{ document.file.path }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5>Document Content</h5>
+                        <div class="border rounded p-3 bg-light" style="max-height: 400px; overflow-y: auto;">
+                            {% if document.content %}
+                                <pre class="mb-0" style="white-space: pre-wrap;">{{ document.content }}</pre>
+                            {% else %}
+                                <p class="text-muted mb-0">No content extracted from this document.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'document_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Documents
+                        </a>
+                        <div>
+                            <a href="{% url 'generate_quiz' %}?document={{ document.id }}" class="btn btn-success me-2">
+                                <i class="bi bi-magic"></i> Generate Quiz
+                            </a>
+                            <a href="{% url 'delete_document' document.id %}" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
