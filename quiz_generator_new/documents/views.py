@@ -36,13 +36,19 @@ def upload_document(request):
 
 @login_required
 def document_detail(request, pk):
-    document = get_object_or_404(Document, pk=pk, uploaded_by=request.user)
+    if request.user.is_superuser:
+        document = get_object_or_404(Document, pk=pk)
+    else:
+        document = get_object_or_404(Document, pk=pk, uploaded_by=request.user)
     return render(request, 'documents/document_detail.html', {'document': document})
 
 
 @login_required
 def delete_document(request, pk):
-    document = get_object_or_404(Document, pk=pk, uploaded_by=request.user)
+    if request.user.is_superuser:
+        document = get_object_or_404(Document, pk=pk)
+    else:
+        document = get_object_or_404(Document, pk=pk, uploaded_by=request.user)
 
     if request.method == 'POST':
         document.file.delete()
