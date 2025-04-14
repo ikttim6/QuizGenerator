@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\anton\Desktop\quiz_generator_new\venv
+set VIRTUAL_ENV=C:\Users\dimit\Desktop\UIKTP PROEKT\QuizGenerator\quiz_generator_new\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

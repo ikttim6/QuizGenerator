@@ -14,6 +14,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -26,10 +27,12 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
 
     # Custom apps
-    'accounts',
+    'django_extensions',
+    'accounts.apps.AccountsConfig',
     'documents',
     'quizzes',
     'core',
+
 ]
 
 MIDDLEWARE = [
@@ -115,3 +118,5 @@ LOGIN_URL = 'login'
 
 # OpenAI API Key
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
+
+

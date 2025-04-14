@@ -68,7 +68,7 @@ def generate_quiz(request):
 
 @login_required
 def quiz_detail(request, pk):
-    quiz = get_object_or_404(Quiz, pk=pk, created_by=request.user)
+    quiz = get_object_or_404(Quiz, pk=pk)
     # Get user attempts for this quiz
     user_attempts = QuizAttempt.objects.filter(quiz=quiz, user=request.user).order_by('-started_at')
 
