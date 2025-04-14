@@ -1,0 +1,13 @@
+# Django Core
+django>=5.0,<5.1  # Or your specific Django version range
+
+# Database Driver
+psycopg2-binary>=2.9  # For PostgreSQL connection
+
+# Django Extensions (for shell_plus)
+django-extensions>=3.0
+ipython>=7.0  # Often needed for shell_plus features
+
+# Crispy Forms & Bootstrap Template Pack
+django-crispy-forms>=2.0
+crispy-bootstrap5>=0.7
