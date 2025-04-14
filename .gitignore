@@ -1,0 +1,60 @@
+ # --- Environments ---
+# Ignore Python virtual environment folders
+venv/
+.venv/
+env/
+.env
+# Include an example .env file if you have one (uncomment below and adjust name)
+# !.env.example
+
+# --- Python cache and compiled files ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- IDE Files ---
+# Ignore JetBrains IDE specific files/folders (PyCharm, IntelliJ, etc.)
+.idea/
+# Ignore VS Code specific files/folders
+.vscode/
+
+# --- Databases ---
+# Ignore SQLite databases used for local development
+db.sqlite3
+*.sqlite3
+# Ignore SQLite temporary files
+*.sqlite3-journal
+
+# --- Django specific ---
+# Ignore collected static files directory (adjust if your STATIC_ROOT is different)
+staticfiles/
+# Ignore media files (user uploads) - these are typically stored elsewhere in production
+media/
+
+# --- Operating System Files ---
+# Ignore macOS specific files
+.DS_Store
+# Ignore Windows specific files
+Thumbs.db
+desktop.ini
+
+# --- Log files ---
+*.log
+logs/
+
+# --- Distribution / packaging ---
+*.egg-info/
+dist/
+build/
+*.egg
+
+# --- Other ---
+# Ignore coverage reports
+.coverage
+coverage.xml
+htmlcov/
+
+# Ignore sensitive configuration files if you use formats other than .env
+# config.yaml
+# settings.local.py # If you use a local settings override pattern
