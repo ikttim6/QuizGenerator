@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponse
 from django.utils import timezone
+
+from .extractor import extract_text_from_file
 from .models import Quiz, Question, Choice, QuizAttempt, UserAnswer
 from .forms import QuizGenerationForm, QuestionForm, ChoiceForm
 from .utils import generate_questions
@@ -18,7 +20,7 @@ def quiz_list(request):
 @login_required
 def generate_quiz(request):
     if request.method == 'POST':
-        form = QuizGenerationForm(request.user, request.POST)
+        form = QuizGenerationForm(request.user, request.POST, request.FILES)
         if form.is_valid():
             document = form.cleaned_data['document']
             title = form.cleaned_data['title']
@@ -26,22 +28,25 @@ def generate_quiz(request):
             num_true_false = form.cleaned_data['num_true_false']
             num_essay = form.cleaned_data['num_essay']
 
-            # Create a new quiz
+            # Extract text directly from the file path
+            text_content = extract_text_from_file(document.file.path)
+
+            # Use AI to generate questions
+            generated_questions = generate_questions(
+                text_content,
+                num_multiple_choice,
+                num_true_false,
+                num_essay
+            )
+
+            # Create quiz
             quiz = Quiz.objects.create(
                 title=title,
                 document=document,
                 created_by=request.user
             )
 
-            # Generate questions using OpenAI
-            generated_questions = generate_questions(
-                document.content,
-                num_multiple_choice,
-                num_true_false,
-                num_essay
-            )
-
-            # Save generated questions to the database
+            # Save questions and choices
             for q_data in generated_questions:
                 question = Question.objects.create(
                     quiz=quiz,
@@ -49,14 +54,12 @@ def generate_quiz(request):
                     question_type=q_data['type']
                 )
 
-                # Save choices for multiple choice and true/false questions
-                if q_data['type'] in ['multiple_choice', 'true_false']:
-                    for choice_data in q_data['choices']:
-                        Choice.objects.create(
-                            question=question,
-                            choice_text=choice_data['text'],
-                            is_correct=choice_data['is_correct']
-                        )
+                for choice_data in q_data.get('choices', []):
+                    Choice.objects.create(
+                        question=question,
+                        choice_text=choice_data['text'],
+                        is_correct=choice_data['is_correct']
+                    )
 
             messages.success(request, 'Quiz generated successfully!')
             return redirect('edit_quiz', pk=quiz.pk)
@@ -64,6 +67,8 @@ def generate_quiz(request):
         form = QuizGenerationForm(request.user)
 
     return render(request, 'quizzes/generate_quiz.html', {'form': form})
+
+
 
 
 @login_required
