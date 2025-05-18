@@ -4,10 +4,10 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.utils import timezone
 
-from .extractor import extract_text_from_file
+# from .extractor import extract_text_from_file # No longer needed here if using document.content
 from .models import Quiz, Question, Choice, QuizAttempt, UserAnswer
 from .forms import QuizGenerationForm, QuestionForm, ChoiceForm
-from .utils import generate_questions
+from .utils import generate_questions # Assuming this is your AI question generator
 import json
 
 
@@ -20,24 +20,39 @@ def quiz_list(request):
 @login_required
 def generate_quiz(request):
     if request.method == 'POST':
-        form = QuizGenerationForm(request.user, request.POST, request.FILES)
+        form = QuizGenerationForm(request.user, request.POST) # Removed request.FILES as we're not re-uploading
         if form.is_valid():
-            document = form.cleaned_data['document']
+            document = form.cleaned_data['document'] # This is a Document model instance
             title = form.cleaned_data['title']
             num_multiple_choice = form.cleaned_data['num_multiple_choice']
             num_true_false = form.cleaned_data['num_true_false']
             num_essay = form.cleaned_data['num_essay']
 
-            # Extract text directly from the file path
-            text_content = extract_text_from_file(document.file.path)
+            # Use the pre-extracted text content from the Document model
+            text_content = document.content
+
+            # Check if content exists (it should if upload was successful)
+            if not text_content:
+                messages.error(request, f"The document '{document.title}' (ID: {document.id}) "
+                                        f"does not have any extracted text content. "
+                                        f"This might indicate an issue during the initial upload and text extraction. "
+                                        f"Please try re-uploading the document.")
+                # Redirect back to the form or to the document list
+                return render(request, 'quizzes/generate_quiz.html', {'form': form})
+                # Or: return redirect('document_list') # or wherever appropriate
 
             # Use AI to generate questions
-            generated_questions = generate_questions(
-                text_content,
-                num_multiple_choice,
-                num_true_false,
-                num_essay
-            )
+            try:
+                generated_questions = generate_questions(
+                    text_content,
+                    num_multiple_choice,
+                    num_true_false,
+                    num_essay
+                )
+            except Exception as e: # Catch potential errors from the AI generation
+                messages.error(request, f"An error occurred during AI question generation: {str(e)}")
+                return render(request, 'quizzes/generate_quiz.html', {'form': form})
+
 
             # Create quiz
             quiz = Quiz.objects.create(
@@ -47,22 +62,28 @@ def generate_quiz(request):
             )
 
             # Save questions and choices
-            for q_data in generated_questions:
-                question = Question.objects.create(
-                    quiz=quiz,
-                    question_text=q_data['question'],
-                    question_type=q_data['type']
-                )
-
-                for choice_data in q_data.get('choices', []):
-                    Choice.objects.create(
-                        question=question,
-                        choice_text=choice_data['text'],
-                        is_correct=choice_data['is_correct']
+            if generated_questions: # Ensure questions were actually generated
+                for q_data in generated_questions:
+                    question = Question.objects.create(
+                        quiz=quiz,
+                        question_text=q_data['question'],
+                        question_type=q_data['type']
                     )
 
-            messages.success(request, 'Quiz generated successfully!')
-            return redirect('edit_quiz', pk=quiz.pk)
+                    for choice_data in q_data.get('choices', []):
+                        Choice.objects.create(
+                            question=question,
+                            choice_text=choice_data['text'],
+                            is_correct=choice_data['is_correct']
+                        )
+                messages.success(request, 'Quiz generated successfully!')
+                return redirect('edit_quiz', pk=quiz.pk)
+            else:
+                # If AI returned no questions or there was an issue not caught by an exception
+                quiz.delete() # Clean up the created quiz object if no questions were added
+                messages.warning(request, "No questions were generated for this document. The quiz was not created.")
+                return render(request, 'quizzes/generate_quiz.html', {'form': form})
+
     else:
         form = QuizGenerationForm(request.user)
 
