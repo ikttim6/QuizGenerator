@@ -31,7 +31,6 @@ lxml==5.3.2
 matplotlib-inline==0.1.7
 openai==1.72.0
 parso==0.8.4
-pip==24.2
 prompt_toolkit==3.0.50
 proto-plus==1.26.1
 protobuf==6.30.2
@@ -43,6 +42,7 @@ pyasn1_modules==0.4.2
 pydantic==2.11.3
 pydantic_core==2.33.1
 Pygments==2.19.1
+PyMuPDF==1.25.5
 pyparsing==3.2.3
 PyPDF2==3.0.1
 python-docx==1.1.2
@@ -54,12 +54,9 @@ sqlparse==0.5.3
 stack-data==0.6.3
 tqdm==4.67.1
 traitlets==5.14.3
-typing_extensions==4.13.2
 typing-inspection==0.4.0
+typing_extensions==4.13.2
 tzdata==2025.2
 uritemplate==4.1.1
 urllib3==2.4.0
 wcwidth==0.2.13
-PyMuPDF
-
-#python.exe -m pip install -r requirements.txt
