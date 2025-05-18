@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 
 client = AzureOpenAI(
     api_key=settings.OPENAI_API_KEY,
-    api_version="",
-    azure_endpoint=""
+    api_version="2023-03-15-preview",
+    azure_endpoint="https://darko-mah60o9t-eastus2.cognitiveservices.azure.com/"
 )
 
 DEPLOYMENT_NAME = "gpt-4.1"
